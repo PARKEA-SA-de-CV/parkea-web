@@ -7,57 +7,45 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     body{background:#0A0A0A;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding:16px;}
-
     .brand{text-align:center;margin-bottom:20px;padding-top:16px;}
     .brand h1{font-size:28px;font-weight:900;letter-spacing:6px;color:#FFE118;}
     .brand p{font-size:9px;letter-spacing:3px;color:#333;margin-top:4px;text-transform:uppercase;}
-
     .card{background:#1A1A1A;border-radius:20px;padding:16px;margin-bottom:12px;border:1px solid #2C2C2C;}
-
     .row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
     .spot-label{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1.5px;}
     .spot-val{font-size:18px;font-weight:800;color:#FFF;margin-top:3px;}
     .spot-val span{color:#1C6EF7;}
     .badge{background:#00C85318;border:1px solid #00C85344;border-radius:8px;padding:4px 10px;font-size:9px;font-weight:800;color:#00C853;letter-spacing:1px;}
-
     .timer-box{background:#111;border-radius:14px;padding:16px;text-align:center;margin-bottom:12px;border:1px solid #FFE11822;}
     .timer-lbl{font-size:8px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
     #timer{color:#FFE118;font-size:40px;font-weight:900;font-family:'Courier New',monospace;letter-spacing:-1px;}
     #courtesy{background:#00C85318;border-radius:6px;padding:4px 12px;display:inline-block;font-size:10px;color:#00C853;font-weight:700;margin-top:10px;}
-
     .cost-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #222;}
     .cost-lbl{font-size:12px;color:#555;}
     #cost{font-size:22px;font-weight:900;color:#FFE118;}
-
     .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1E1E1E;}
     .info-row:last-child{border:none;}
     .info-key{font-size:11px;color:#555;}
     .info-val{font-size:11px;font-weight:700;color:#FFF;}
-
     .fares{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
     .fare-cell{background:#1A1A1A;border-radius:12px;padding:10px 6px;text-align:center;border:1px solid #2C2C2C;}
     .fare-amt{font-size:15px;font-weight:900;}
     .fare-unit{color:#FFF;font-size:8px;margin-top:2px;}
     .fare-lbl{color:#555;font-size:8px;margin-top:2px;}
-
     .cta{background:#111;border-radius:18px;padding:20px 16px;margin-bottom:12px;border:1.5px solid #FFE11833;text-align:center;}
     .cta h3{color:#FFE118;font-size:16px;font-weight:900;margin-bottom:6px;}
     .cta p{color:#555;font-size:12px;line-height:1.6;margin-bottom:16px;}
     .cta p strong{color:#FFF;}
-
-    .btn-apk{display:block;width:100%;padding:15px;border-radius:14px;border:none;background:#FFE118;color:#0A0A0A;font-size:15px;font-weight:900;cursor:pointer;text-decoration:none;text-align:center;margin-bottom:10px;letter-spacing:0.3px;}
+    .btn-apk{display:block;width:100%;padding:15px;border-radius:14px;border:none;background:#FFE118;color:#0A0A0A;font-size:15px;font-weight:900;cursor:pointer;text-decoration:none;text-align:center;margin-bottom:10px;}
     .btn-app{display:block;width:100%;padding:11px;border-radius:14px;border:1px solid #2C2C2C;background:transparent;color:#555;font-size:12px;cursor:pointer;text-decoration:none;text-align:center;}
-
     .warning{background:#1A0808;border-radius:14px;padding:14px;border:1px solid #FF444422;display:flex;align-items:center;gap:12px;margin-bottom:24px;}
     .warn-icon{width:28px;height:28px;border-radius:14px;background:#FF444418;border:1px solid #FF444444;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#FF4444;font-weight:900;font-size:14px;}
     .warn-text{color:#FF4444;font-size:11px;font-weight:700;}
     .warn-desc{color:#555;font-size:10px;margin-top:2px;}
-
     .loading{text-align:center;padding:60px 20px;}
     .loading p{color:#555;font-size:13px;margin-top:16px;}
     .spinner{width:40px;height:40px;border:3px solid #222;border-top:3px solid #FFE118;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;}
     @keyframes spin{to{transform:rotate(360deg);}}
-
     .error-state{text-align:center;padding:60px 20px;}
     .error-icon{width:64px;height:64px;border-radius:20px;background:#FF444418;border:1.5px solid #FF444433;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
     .error-icon span{color:#FF4444;font-size:28px;font-weight:900;}
@@ -66,7 +54,6 @@
   </style>
 </head>
 <body>
-
   <div class="brand">
     <h1>PARKEA</h1>
     <p>Sin boleto · Sin fila</p>
@@ -74,7 +61,7 @@
 
   <div id="loading" class="loading">
     <div class="spinner"></div>
-    <p>Cargando tu boleto...</p>
+    <p id="loading-msg">Cargando tu boleto...</p>
   </div>
 
   <div id="content" style="display:none;">
@@ -86,18 +73,15 @@
         </div>
         <div class="badge">● ACTIVO</div>
       </div>
-
       <div class="timer-box">
         <div class="timer-lbl">Tiempo en estacionamiento</div>
         <div id="timer">00:00:00</div>
         <div id="courtesy"></div>
       </div>
-
       <div class="cost-row">
         <span class="cost-lbl">Costo estimado actual</span>
         <span id="cost">$0 <span style="font-size:11px;font-weight:400;color:#555;">MXN</span></span>
       </div>
-
       <div style="margin-top:4px;">
         <div class="info-row"><span class="info-key">Token</span><span class="info-val" id="token-val" style="color:#1C6EF7;">—</span></div>
         <div class="info-row"><span class="info-key">Entrada</span><span class="info-val" id="entry-val">—</span></div>
@@ -129,13 +113,14 @@
 
   <div id="error-state" class="error-state" style="display:none;">
     <div class="error-icon"><span>!</span></div>
-    <div class="error-title">Boleto no encontrado</div>
-    <div class="error-sub">Este enlace no es válido o el ticket ya no está activo.</div>
+    <div class="error-title" id="error-title">Boleto no encontrado</div>
+    <div class="error-sub" id="error-sub">Este enlace no es válido o el ticket ya no está activo.</div>
   </div>
 
   <script>
     const SUPABASE_URL = 'https://pjpquwrrmjfzdcicvssm.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_vDACoUwPW_ql0KAtqXXF6g_hQbbFdn3';
+    const REGISTER_URL = 'https://pjpquwrrmjfzdcicvssm.supabase.co/functions/v1/register-entry';
     const APK_URL = 'https://expo.dev/accounts/smartparking/projects/smart-parking/builds/a4345771-9796-40a7-bdcd-5701681cd366';
     const COURTESY = 15, FIRST = 15, EXTRA = 20;
 
@@ -152,82 +137,116 @@
       return params.get('token');
     }
 
+    async function createTicket(){
+      document.getElementById('loading-msg').textContent = 'Creando tu boleto...';
+      const res = await fetch(REGISTER_URL, {
+        method: 'GET',
+        redirect: 'manual',
+      });
+
+      // Intentar obtener el token de la respuesta
+      const text = await res.text();
+
+      // Buscar el token en la respuesta
+      const match = text.match(/PKA-[A-Z0-9]{6}/);
+      if(match){
+        const token = match[0];
+        window.location.href = `?token=${token}`;
+        return;
+      }
+
+      // Si no encontramos token, hacer fetch directo a Supabase
+      // para obtener el último ticket creado en los últimos 10 segundos
+      const since = new Date(Date.now() - 10000).toISOString();
+      const r2 = await fetch(
+        `${SUPABASE_URL}/rest/v1/tickets?created_at=gte.${since}&order=created_at.desc&limit=1&select=qr_token`,
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }}
+      );
+      const data = await r2.json();
+      if(data && data.length > 0){
+        window.location.href = `?token=${data[0].qr_token}`;
+      } else {
+        showError('Sin lugares disponibles', 'El estacionamiento está lleno. Intenta más tarde.');
+      }
+    }
+
     async function loadTicket(token){
       const res = await fetch(
         `${SUPABASE_URL}/rest/v1/tickets?qr_token=eq.${token}&select=*`,
-        { headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-        }}
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }}
       );
       const data = await res.json();
       return data && data.length > 0 ? data[0] : null;
     }
 
+    function showError(title, sub){
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('error-title').textContent = title;
+      document.getElementById('error-sub').textContent = sub;
+      document.getElementById('error-state').style.display = 'block';
+    }
+
     function startTimer(entryAt){
       const entryMs = new Date(entryAt).getTime();
-
       function update(){
-        const now = Date.now();
-        const totalSecs = Math.floor((now - entryMs) / 1000);
+        const totalSecs = Math.floor((Date.now() - entryMs) / 1000);
         const mins = Math.floor(totalSecs / 60);
         const secs = totalSecs % 60;
-        const hh = pad(Math.floor(mins / 60));
-        const mm = pad(mins % 60);
-        const ss = pad(secs);
-
-        document.getElementById('timer').textContent = `${hh}:${mm}:${ss}`;
-
+        document.getElementById('timer').textContent =
+          `${pad(Math.floor(mins/60))}:${pad(mins%60)}:${pad(secs)}`;
         const cost = calcCost(mins);
         const costEl = document.getElementById('cost');
         if(mins <= COURTESY){
           costEl.innerHTML = `<span style="color:#00C853;">$0</span> <span style="font-size:11px;font-weight:400;color:#555;">MXN</span>`;
-          document.getElementById('courtesy').style.display = 'inline-block';
-          document.getElementById('courtesy').textContent = `${COURTESY - mins} min de cortesía restantes`;
+          const c = document.getElementById('courtesy');
+          c.style.display = 'inline-block';
+          c.textContent = `${COURTESY - mins} min de cortesía restantes`;
         } else {
           costEl.innerHTML = `$${cost} <span style="font-size:11px;font-weight:400;color:#555;">MXN</span>`;
           document.getElementById('courtesy').style.display = 'none';
         }
       }
-
       update();
       setInterval(update, 1000);
     }
 
     async function init(){
       const token = getToken();
+      const error = new URLSearchParams(window.location.search).get('error');
 
-      if(!token){
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('error-state').style.display = 'block';
+      if(error === 'full'){
+        showError('Sin lugares disponibles', 'El estacionamiento está lleno. Intenta más tarde.');
         return;
       }
 
+      if(!token){
+        // No hay token — crear ticket nuevo
+        try {
+          await createTicket();
+        } catch(e) {
+          showError('Error de conexión', 'No se pudo crear el boleto. Intenta de nuevo.');
+        }
+        return;
+      }
+
+      // Hay token — cargar ticket existente
       try {
         const ticket = await loadTicket(token);
-
         if(!ticket){
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('error-state').style.display = 'block';
+          showError('Boleto no encontrado', 'Este enlace no es válido o el ticket ya no está activo.');
           return;
         }
-
         document.getElementById('spot').textContent = ticket.spot_id ?? '—';
         document.getElementById('token-val').textContent = ticket.qr_token;
         document.getElementById('entry-val').textContent = new Date(ticket.entry_at)
           .toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
-
         document.getElementById('btn-apk').href = APK_URL;
         document.getElementById('btn-app').href = `parkea://ticket?token=${token}`;
-
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
-
         startTimer(ticket.entry_at);
-
       } catch(e) {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('error-state').style.display = 'block';
+        showError('Error de conexión', 'No se pudo cargar el boleto. Intenta de nuevo.');
       }
     }
 
