@@ -135,7 +135,7 @@
 
   <script>
     const SUPABASE_URL = 'https://pjpquwrrmjfzdcicvssm.supabase.co';
-    const SUPABASE_ANON_KEY = 'REEMPLAZA_CON_TU_ANON_KEY';
+    const SUPABASE_ANON_KEY = 'sb_publishable_vDACoUwPW_ql0KAtqXXF6g_hQbbFdn3';
     const APK_URL = 'https://expo.dev/accounts/smartparking/projects/smart-parking/builds/a4345771-9796-40a7-bdcd-5701681cd366';
     const COURTESY = 15, FIRST = 15, EXTRA = 20;
 
