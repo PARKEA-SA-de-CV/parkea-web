@@ -139,10 +139,7 @@
 
     async function createTicket(){
       document.getElementById('loading-msg').textContent = 'Creando tu boleto...';
-      const res = await fetch(REGISTER_URL, {
-        method: 'GET',
-        redirect: 'manual',
-      });
+      window.location.href = REGISTER_URL;
 
       // Intentar obtener el token de la respuesta
       const text = await res.text();
