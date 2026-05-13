@@ -3,6 +3,22 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- PWA -->
+    <link rel="manifest" href="manifest.json"/>
+    <meta name="theme-color" content="#FFE118"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="apple-mobile-web-app-title" content="PARKEA"/>
+    <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+
+    <!-- Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('service-worker.js');
+        });
+      }
+    </script>
   <title>PARKEA — Tu boleto</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -98,7 +114,8 @@
     <div class="cta">
       <h3>¿Listo para salir?</h3>
       <p>Para pagar y obtener tu QR de salida,<br/><strong>descarga la app PARKEA</strong></p>
-      <a id="btn-apk" href="#" class="btn-apk">Descargar PARKEA</a>
+      <a id="btn-apk" href="#" class="btn-apk">⬇ Descargar PARKEA (.apk)</a>
+      <p style="color:#333;font-size:10px;margin:-6px 0 10px;">Android · Instalación directa · Sin cuenta</p>
       <a id="btn-app" href="#" class="btn-app">Ya tengo la app — abrir ticket</a>
     </div>
 
