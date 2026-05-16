@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <!-- PWA -->
+<<<<<<< HEAD
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#FFE118"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -13,7 +14,15 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png"/>
 
     <!-- Service Worker -->
-    <script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js');
+  });
+}
+</script>
+  </script>
+>>>>>>> 9ceedf3 (fix: eliminar meta tags PWA duplicadas)
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('service-worker.js');
