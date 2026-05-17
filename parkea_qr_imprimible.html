@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <title>PARKEA — QR de Entrada</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0A0A0A;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .poster {
+      background: #0A0A0A;
+      border: 2px solid #2C2C2C;
+      border-radius: 28px;
+      padding: 40px 32px 36px;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    /* ── Marca ── */
+    .brand-name {
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: 10px;
+      color: #FFE118;
+      line-height: 1;
+    }
+    .brand-sub {
+      font-size: 13px;
+      letter-spacing: 4px;
+      color: #444;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    /* ── Separador ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #2C2C2C, transparent);
+      margin: 24px 0;
+    }
+
+    /* ── Instrucción superior ── */
+    .scan-label {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* ── QR ── */
+    .qr-wrapper {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 18px;
+      display: inline-block;
+      margin-bottom: 24px;
+      box-shadow: 0 0 0 1px #2C2C2C;
+      width: 296px;
+      height: 296px;
+      overflow: hidden;
+    }
+    .qr-wrapper img {
+      display: block;
+      width: 260px;
+      height: 260px;
+      object-fit: contain;
+    }
+
+    /* ── Pasos ── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+      text-align: left;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FFE11822;
+      border: 1.5px solid #FFE11844;
+      color: #FFE118;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-text strong {
+      display: block;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .step-text span {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* ── Tarifas ── */
+    .fares {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .fare-cell {
+      background: #1A1A1A;
+      border: 1px solid #2C2C2C;
+      border-radius: 14px;
+      padding: 14px 8px;
+    }
+    .fare-amt {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .fare-unit {
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+    .fare-lbl {
+      color: #555;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    /* ── Advertencia ── */
+    .warning {
+      background: #1A0808;
+      border: 1.5px solid #FF444433;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+    .warn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FF444422;
+      border: 1.5px solid #FF444455;
+      color: #FF4444;
+      font-size: 16px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .warn-title {
+      color: #FF4444;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .warn-desc {
+      color: #664444;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* ── Impresión ── */
+    @media print {
+      body { background: #0A0A0A; padding: 0; }
+      .poster { border: none; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="poster">
+
+    <div class="brand-name">PARKEA</div>
+    <div class="brand-sub">Sin boleto · Sin fila</div>
+
+    <div class="divider"></div>
+
+    <div class="scan-label">Escanea para ingresar</div>
+
+    <div class="qr-wrapper">
+      <img src="data:image/png;base64,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" alt="QR de entrada PARKEA"/>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Escanea este QR</strong>
+          <span>Tu navegador abre el boleto provisional automáticamente</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Timer corriendo en vivo</strong>
+          <span>Sin instalar nada. El tiempo y costo se actualizan en vivo</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Descarga PARKEA para pagar</strong>
+          <span>El pago solo está disponible en la app — es obligatorio</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <strong>Muestra tu QR de salida</strong>
+          <span>El operador lo escanea y quedas liberado</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fares">
+      <div class="fare-cell">
+        <div class="fare-amt" style="color:#00C853;">15 min</div>
+        <div class="fare-unit">GRATIS</div>
+        <div class="fare-lbl">Cortesía</div>
+      </div>
+      <div class="fare-cell">
+        <div class="fare-amt" style="color:#FFE118;">5</div>
+        <div class="fare-unit">MXN</div>
+        <div class="fare-lbl">1ª hora</div>
+      </div>
+      <div class="fare-cell">
+        <div class="fare-amt" style="color:#1C6EF7;">0</div>
+        <div class="fare-unit">MXN</div>
+        <div class="fare-lbl">Hora extra</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div class="warn-icon">!</div>
+      <div>
+        <div class="warn-title">Multa por tolerancia excedida</div>
+        <div class="warn-desc">+15 min después de pagar — 0 MXN adicionales</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
