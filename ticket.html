@@ -3,32 +3,21 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <!-- PWA -->
-<<<<<<< HEAD
-    <link rel="manifest" href="manifest.json"/>
-    <meta name="theme-color" content="#FFE118"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <meta name="apple-mobile-web-app-title" content="PARKEA"/>
-    <link rel="apple-touch-icon" href="icons/icon-192.png"/>
-
-    <!-- Service Worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js');
-  });
-}
-</script>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#FFE118"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="PARKEA"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
   </script>
->>>>>>> 9ceedf3 (fix: eliminar meta tags PWA duplicadas)
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js');
-        });
-      }
-    </script>
   <title>PARKEA — Tu boleto</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
@@ -64,6 +53,11 @@ if ('serviceWorker' in navigator) {
     .cta p strong{color:#FFF;}
     .btn-apk{display:block;width:100%;padding:15px;border-radius:14px;border:none;background:#FFE118;color:#0A0A0A;font-size:15px;font-weight:900;cursor:pointer;text-decoration:none;text-align:center;margin-bottom:10px;}
     .btn-app{display:block;width:100%;padding:11px;border-radius:14px;border:1px solid #2C2C2C;background:transparent;color:#555;font-size:12px;cursor:pointer;text-decoration:none;text-align:center;}
+    .ios-steps{background:#1A1A1A;border-radius:14px;padding:16px;margin-bottom:10px;border:1px solid #2C2C2C;text-align:left;}
+    .ios-steps p.ios-title{color:#FFE118;font-size:12px;font-weight:800;margin-bottom:10px;}
+    .ios-steps p.ios-body{color:#555;font-size:11px;line-height:1.8;margin:0;}
+    .ios-steps p.ios-body strong{color:#FFF;}
+    .ios-note{color:#333;font-size:10px;margin:0 0 10px;}
     .warning{background:#1A0808;border-radius:14px;padding:14px;border:1px solid #FF444422;display:flex;align-items:center;gap:12px;margin-bottom:24px;}
     .warn-icon{width:28px;height:28px;border-radius:14px;background:#FF444418;border:1px solid #FF444444;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#FF4444;font-weight:900;font-size:14px;}
     .warn-text{color:#FF4444;font-size:11px;font-weight:700;}
@@ -124,8 +118,26 @@ if ('serviceWorker' in navigator) {
     <div class="cta">
       <h3>¿Listo para salir?</h3>
       <p>Para pagar y obtener tu QR de salida,<br/><strong>descarga la app PARKEA</strong></p>
-      <a id="btn-apk" href="#" class="btn-apk">⬇ Descargar PARKEA (.apk)</a>
-      <p style="color:#333;font-size:10px;margin:-6px 0 10px;">Android · Instalación directa · Sin cuenta</p>
+
+      <!-- Android -->
+      <div id="cta-android" style="display:none;">
+        <a id="btn-apk" href="#" class="btn-apk">⬇ Descargar PARKEA (.apk)</a>
+        <p style="color:#333;font-size:10px;margin:-6px 0 10px;">Android · Instalación directa · Sin cuenta</p>
+      </div>
+
+      <!-- iOS -->
+      <div id="cta-ios" style="display:none;">
+        <div class="ios-steps">
+          <p class="ios-title">📲 Cómo instalar PARKEA en iPhone:</p>
+          <p class="ios-body">
+            1. Toca <strong>compartir</strong> (ícono □↑) en Safari<br/>
+            2. Selecciona <strong>"Agregar a pantalla de inicio"</strong><br/>
+            3. Toca <strong>"Agregar"</strong> — ¡listo!
+          </p>
+        </div>
+        <p class="ios-note">Funciona como app nativa · Sin App Store · Gratis</p>
+      </div>
+
       <a id="btn-app" href="#" class="btn-app">Ya tengo la app — abrir ticket</a>
     </div>
 
@@ -148,9 +160,9 @@ if ('serviceWorker' in navigator) {
     const SUPABASE_URL = 'https://pjpquwrrmjfzdcicvssm.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_vDACoUwPW_ql0KAtqXXF6g_hQbbFdn3';
     const REGISTER_URL = 'https://pjpquwrrmjfzdcicvssm.supabase.co/functions/v1/register-entry';
-    const APK_URL = 'https://expo.dev/artifacts/eas/vmPXFSpRp8EnQdMSrCGaSo.apk';    
+    const APK_URL = 'https://expo.dev/artifacts/eas/vmPXFSpRp8EnQdMSrCGaSo.apk';
     const COURTESY = 15, FIRST = 15, EXTRA = 20;
- 
+
     function pad(n){ return String(n).padStart(2,'0'); }
 
     function calcCost(mins){
@@ -164,34 +176,29 @@ if ('serviceWorker' in navigator) {
       return params.get('token');
     }
 
+    function detectPlatform() {
+      const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+      const ios = /iPad|iPhone|iPod/.test(ua) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const android = /Android/.test(ua);
+
+      if (ios) {
+        document.getElementById('cta-android').style.display = 'none';
+        document.getElementById('cta-ios').style.display = 'block';
+        document.getElementById('btn-app').textContent = 'Ya tengo PARKEA instalada — abrir ticket';
+      } else if (android) {
+        document.getElementById('cta-android').style.display = 'block';
+        document.getElementById('cta-ios').style.display = 'none';
+      } else {
+        // Desktop — mostrar ambas opciones
+        document.getElementById('cta-android').style.display = 'block';
+        document.getElementById('cta-ios').style.display = 'block';
+      }
+    }
+
     async function createTicket(){
       document.getElementById('loading-msg').textContent = 'Creando tu boleto...';
       window.location.href = REGISTER_URL;
-
-      // Intentar obtener el token de la respuesta
-      const text = await res.text();
-
-      // Buscar el token en la respuesta
-      const match = text.match(/PKA-[A-Z0-9]{6}/);
-      if(match){
-        const token = match[0];
-        window.location.href = `?token=${token}`;
-        return;
-      }
-
-      // Si no encontramos token, hacer fetch directo a Supabase
-      // para obtener el último ticket creado en los últimos 10 segundos
-      const since = new Date(Date.now() - 10000).toISOString();
-      const r2 = await fetch(
-        `${SUPABASE_URL}/rest/v1/tickets?created_at=gte.${since}&order=created_at.desc&limit=1&select=qr_token`,
-        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }}
-      );
-      const data = await r2.json();
-      if(data && data.length > 0){
-        window.location.href = `?token=${data[0].qr_token}`;
-      } else {
-        showError('Sin lugares disponibles', 'El estacionamiento está lleno. Intenta más tarde.');
-      }
     }
 
     async function loadTicket(token){
@@ -244,7 +251,6 @@ if ('serviceWorker' in navigator) {
       }
 
       if(!token){
-        // No hay token — crear ticket nuevo
         try {
           await createTicket();
         } catch(e) {
@@ -253,7 +259,6 @@ if ('serviceWorker' in navigator) {
         return;
       }
 
-      // Hay token — cargar ticket existente
       try {
         const ticket = await loadTicket(token);
         if(!ticket){
@@ -268,6 +273,7 @@ if ('serviceWorker' in navigator) {
         document.getElementById('btn-app').href = `parkea://ticket?token=${token}`;
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
+        detectPlatform();
         startTimer(ticket.entry_at);
       } catch(e) {
         showError('Error de conexión', 'No se pudo cargar el boleto. Intenta de nuevo.');
